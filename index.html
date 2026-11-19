@@ -2,71 +2,93 @@
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Ask the NY SIR</title>
 <style>
-:root{--bg:#f6f7f9;--panel:#fff;--ink:#18212f;--muted:#5b6678;--line:#e3e7ee;--brand:#16406b;--brand2:#1f6fb2;--accent:#0f8b7d;--chip:#eef3f9;--hl:#fff1a8}
+:root{--navy:#0b2545;--blue:#13427a;--blue2:#1d5fa8;--sky:#e8f0f9;--gold:#c99a2e;--bg:#f3f5f8;--panel:#fff;--ink:#16202e;--muted:#5a6577;--line:#d9dfe8;--chip:#e8f0f9;--hl:#fde68a;--teal:#1b7a6e}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-header{background:var(--brand);color:#fff;padding:18px 20px 16px}
-header h1{margin:0;font-size:21px}
-header p{margin:3px 0 0;color:#bcd0e6;font-size:13px}
-main{max-width:860px;margin:0 auto;padding:18px 16px 120px}
-.askbar{position:sticky;top:0;z-index:5;background:var(--bg);padding:10px 0 8px}
-.askrow{display:flex;gap:8px}
-textarea{flex:1;resize:none;font:inherit;padding:11px 13px;border:1.5px solid var(--line);border-radius:10px;background:#fff;min-height:48px;max-height:140px}
-textarea:focus{outline:none;border-color:var(--brand2)}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.6 "Segoe UI",system-ui,-apple-system,Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-font-smoothing:antialiased}
+.topstrip{background:#071a33;color:#a9bdd6;font-size:12px;letter-spacing:.04em;padding:6px 20px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.topstrip b{color:#fff;font-weight:600}
+.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#0b2545 0%,#13427a 60%,#1d5fa8 100%);color:#fff;padding:34px 20px 92px}
+.hero svg.lines{position:absolute;inset:0;width:100%;height:100%;opacity:.13;pointer-events:none}
+.hero-in{position:relative;max-width:900px;margin:0 auto}
+.brand{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.mark{width:42px;height:42px;border-radius:10px;background:#fff;display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+.mark svg{width:26px;height:26px}
+.brand .bt{font-size:13px;line-height:1.3;color:#c9d8ea}.brand .bt b{display:block;color:#fff;font-size:15px;letter-spacing:.02em}
+.hero h1{margin:0;font-size:clamp(28px,5vw,40px);line-height:1.15;font-weight:700;letter-spacing:-.01em}
+.hero h1 span{color:var(--gold)}
+.hero p.sub{margin:10px 0 0;max-width:640px;color:#d3e0ef;font-size:16px}
+.facts{display:flex;gap:10px;flex-wrap:wrap;margin-top:18px}
+.fact{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.08);border-radius:999px;padding:4px 12px;font-size:12.5px;color:#e6eef8}
+main{max-width:900px;margin:-64px auto 0;padding:0 16px 110px;position:relative}
+.askbar{position:sticky;top:0;z-index:5;background:var(--panel);border:1px solid var(--line);border-top:4px solid var(--gold);border-radius:12px;padding:16px 16px 10px;box-shadow:0 10px 30px rgba(11,37,69,.14)}
+.asklabel{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);margin-bottom:8px}
+.askrow{display:flex;gap:10px}
+textarea{flex:1;resize:none;font:inherit;padding:12px 14px;border:1.5px solid var(--line);border-radius:9px;background:#fbfcfe;min-height:50px;max-height:140px;color:var(--ink)}
+textarea:focus{outline:none;border-color:var(--blue2);background:#fff;box-shadow:0 0 0 3px rgba(29,95,168,.15)}
 button{font:inherit;cursor:pointer}
-.go{background:var(--brand2);color:#fff;border:0;border-radius:10px;padding:0 18px;font-weight:600}
-.go:disabled{opacity:.5;cursor:default}
-.chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 4px}
-.chip{background:#fff;border:1px solid var(--line);border-radius:18px;padding:5px 11px;font-size:13px;color:var(--brand)}
-.chip:hover{border-color:var(--brand2)}
-.status{font-size:12.5px;color:var(--muted);margin-top:4px;min-height:18px}
-.turn{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
-.q{font-weight:600;font-size:16px;color:var(--brand);margin-bottom:8px}
-.ans{font-size:15px}
-.ans p{margin:6px 0}.ans ul,.ans ol{margin:6px 0;padding-left:22px}.ans li{margin:3px 0}
-.ans .c{display:inline-block;font-size:11.5px;background:var(--chip);color:var(--brand2);border-radius:5px;padding:0 6px;font-weight:500;white-space:nowrap}
+.go{background:var(--blue);color:#fff;border:0;border-radius:9px;padding:0 24px;font-weight:600;letter-spacing:.02em;display:flex;align-items:center;gap:8px;transition:background .15s}
+.go:hover{background:var(--navy)}
+.go:disabled{opacity:.55;cursor:default}
+.go svg{width:16px;height:16px}
+.status{font-size:12.5px;color:var(--muted);margin-top:8px;min-height:18px;display:flex;align-items:center;gap:7px}
+.status:before{content:"";width:8px;height:8px;border-radius:50%;background:#2e9e5b;flex:none}
+.sect{margin:26px 0 8px;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chips{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:8px;margin:0 0 4px}
+.chip{text-align:left;background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--blue2);border-radius:8px;padding:10px 12px;font-size:13.5px;color:var(--ink);transition:all .15s}
+.chip:hover{border-color:var(--blue2);background:var(--sky);transform:translateY(-1px)}
+.turn{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:0;margin:18px 0;overflow:hidden;box-shadow:0 1px 3px rgba(11,37,69,.06)}
+.q{font-weight:600;font-size:16px;color:#fff;background:var(--blue);padding:12px 18px;display:flex;gap:10px;align-items:flex-start}
+.q:before{content:"Q";flex:none;width:22px;height:22px;border-radius:5px;background:var(--gold);color:var(--navy);font-size:12.5px;font-weight:800;display:grid;place-items:center;margin-top:1px}
+.ans{font-size:15.5px;padding:14px 18px 4px}
+.ans p{margin:6px 0}.ans ul,.ans ol{margin:6px 0;padding-left:22px}.ans li{margin:4px 0}
+.ans strong{color:var(--navy)}
+.ans .c,.qa .c{display:inline-block;font-size:11.5px;background:var(--chip);color:var(--blue);border:1px solid #cddcee;border-radius:4px;padding:0 6px;font-weight:600;white-space:nowrap;margin-left:2px}
 .thinking{color:var(--muted);font-style:italic}
-.tools{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
-.tb{background:#fff;border:1px solid var(--line);border-radius:7px;padding:4px 10px;font-size:12.5px;color:var(--muted)}
-details.src{margin-top:12px;border-top:1px solid var(--line);padding-top:8px}
-details.src summary{cursor:pointer;font-size:13px;color:var(--muted);font-weight:500}
-.p{border-left:3px solid var(--accent);padding:6px 10px;margin:8px 0;background:#fafcfd;border-radius:0 7px 7px 0;font-size:13.5px}
-.p .lab{font-size:11.5px;font-weight:600;color:var(--accent);margin-bottom:2px}
-mark{background:var(--hl);padding:0 1px}
-.note{background:#fff8e8;border:1px solid #f2dfb0;border-radius:9px;padding:9px 13px;font-size:13px;margin:8px 0}
-.qa{border:1px solid #cfe5df;background:#f2faf8;border-radius:9px;padding:10px 13px;margin:8px 0}.qa .qq{font-size:12.5px;color:var(--muted);margin-bottom:3px}.qa .c{display:inline-block;font-size:11.5px;background:var(--chip);color:var(--brand2);border-radius:5px;padding:0 6px;font-weight:500;margin-left:4px}.more{font-size:13px}.aibar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px;margin-top:8px}
-.aibar select{font:inherit;font-size:13px;padding:4px 6px;border:1px solid var(--line);border-radius:7px}
-.aibtn{background:var(--accent);color:#fff;border:0;border-radius:7px;padding:5px 11px;font-size:13px}
-.aibtn.off{background:#fff;color:var(--muted);border:1px solid var(--line)}
-.pbar{flex-basis:100%;height:6px;background:#e6ebf2;border-radius:4px;overflow:hidden;display:none}.pbar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
-.aiinfo{flex-basis:100%;font-size:12px;color:var(--muted)}
-.local{border:1px solid #d9d3f0;background:#f7f5fd;border-radius:9px;padding:10px 13px;margin:8px 0}
-.local .lh{font-size:12px;font-weight:600;color:#5b47a8;margin-bottom:4px}
-.empty{color:var(--muted);text-align:center;margin-top:40px}
-footer{font-size:12px;color:var(--muted);text-align:center;margin:30px 0 10px}
+.thinking:after{content:"";display:inline-block;width:14px;height:14px;margin-left:8px;vertical-align:-2px;border:2px solid var(--line);border-top-color:var(--blue2);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.tools{display:flex;gap:8px;padding:4px 18px 12px;flex-wrap:wrap}
+.tools:empty{display:none}
+.tb{background:#fff;border:1px solid var(--line);border-radius:6px;padding:4px 11px;font-size:12.5px;color:var(--blue);font-weight:600}
+.tb:hover{background:var(--sky)}
+details.src{margin:4px 18px 14px;border-top:1px solid var(--line);padding-top:10px}
+.ans details.src{margin:12px 0 8px}
+details.src summary{cursor:pointer;font-size:13px;color:var(--blue);font-weight:600}
+.p{border-left:3px solid var(--blue2);padding:7px 11px;margin:8px 0;background:#f7f9fc;border-radius:0 6px 6px 0;font-size:13.5px}
+.p .lab{font-size:11.5px;font-weight:700;color:var(--blue);margin-bottom:2px;letter-spacing:.02em}
+mark{background:var(--hl);padding:0 1px;border-radius:2px}
+.note{background:#fff7e6;border:1px solid #efd9a6;border-left:4px solid var(--gold);border-radius:6px;padding:9px 13px;font-size:13.5px;margin:8px 0}
+.qa{border:1px solid #d5e2f0;background:#f5f9fd;border-radius:8px;padding:10px 13px;margin:8px 0}.qa .qq{font-size:12.5px;color:var(--muted);margin-bottom:3px;font-weight:600}.more{font-size:13.5px}
+.aibar{display:none!important}
+.local{border:1px solid var(--line);background:#f7f9fc;border-radius:8px;padding:10px 13px;margin:8px 0}.local .lh{font-size:12px;font-weight:700;color:var(--blue)}
+.empty{color:var(--muted);text-align:center;margin:34px 0 0;font-size:14px}
+footer{border-top:1px solid var(--line);margin-top:40px;padding-top:16px;font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer b{color:var(--ink)}
+@media (max-width:600px){.hero{padding:24px 16px 84px}.askrow{flex-direction:column}.go{justify-content:center;padding:12px}.topstrip span:last-child{display:none}}
+@media print{.topstrip,.askbar,.chips,.sect,.tools{display:none}.hero{background:none;color:#000;padding:0}main{margin:0}}
 </style></head>
 <body>
-<header><h1>Ask the NY SIR</h1><p>NY Standardized Interconnection Requirements (DG &amp; ESS ≤ 5 MW) · effective Oct 1, 2026 · answers drawn only from the SIR text</p></header>
+<div class="topstrip"><span><b>NY SIR</b> &nbsp;·&nbsp; Distributed Generation &amp; Energy Storage ≤ 5 MW</span><span>Effective October 1, 2026</span></div>
+<section class="hero">
+ <svg class="lines" viewBox="0 0 900 260" preserveAspectRatio="none" aria-hidden="true"><g fill="none" stroke="#fff" stroke-width="1.4"><path d="M0 70 Q150 110 300 70 T600 70 T900 70"/><path d="M0 95 Q150 135 300 95 T600 95 T900 95"/><path d="M0 120 Q150 160 300 120 T600 120 T900 120"/></g><g stroke="#fff" stroke-width="2" fill="none"><path d="M300 40 L300 260 M285 70 L315 70 M290 95 L310 95"/><path d="M600 40 L600 260 M585 70 L615 70 M590 95 L610 95"/></g></svg>
+ <div class="hero-in">
+  <div class="brand"><div class="mark"><svg viewBox="0 0 24 24"><path d="M13 2 4 14h7l-1 8 9-12h-7z" fill="#13427a"/><path d="M13 2 4 14h7" fill="none" stroke="#c99a2e" stroke-width="1.6" stroke-linejoin="round"/></svg></div><div class="bt"><b>NY SIR HELP</b>Interconnection reference</div></div>
+  <h1>Ask the <span>NY SIR</span></h1>
+  <p class="sub">Get clear answers about New York's Standardized Interconnection Requirements, with the section and page cited for every fact.</p>
+  <div class="facts"><span class="fact">120 pages indexed</span><span class="fact">Process steps, technical rules &amp; appendices</span><span class="fact">Cited to section &amp; page</span></div>
+ </div>
+</section>
 <main>
  <div class="askbar">
-  <div class="askrow"><textarea id="q" rows="1" placeholder="Ask anything about the SIR, e.g. “How long does the utility have to finish a CESIR?”"></textarea><button class="go" id="go">Ask</button></div>
+  <div class="asklabel">Your question</div>
+  <div class="askrow"><textarea id="q" rows="1" placeholder="e.g. How long does a CESIR take?"></textarea><button class="go" id="go"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Ask</button></div>
   <div class="status" id="status">Loading the SIR text…</div>
-  <div class="aibar" id="aibar" style="display:none">
-   <b>On-device AI</b>
-   <select id="model">
-    <option value="Llama-3.2-3B-Instruct-q4f16_1-MLC">Llama 3.2 3B · recommended · ~2.3 GB</option>
-    <option value="Qwen2.5-1.5B-Instruct-q4f16_1-MLC">Qwen 2.5 1.5B · faster · ~1.6 GB</option>
-    <option value="Llama-3.2-1B-Instruct-q4f16_1-MLC">Llama 3.2 1B · fastest, weakest · ~0.9 GB</option>
-    <option value="Phi-3.5-mini-instruct-q4f16_1-MLC">Phi 3.5 mini · strongest, slowest · ~3.7 GB</option>
-   </select>
-   <button class="aibtn" id="aion">Turn on</button>
-   <div class="pbar" id="pbar"><i></i></div>
-   <div class="aiinfo" id="aiinfo">Runs an AI model inside this browser so answers are written on your device with no internet. One-time download (needs internet once, then works offline). Needs a recent computer and Chrome or Edge.</div>
-  </div>
+  <div class="aibar" id="aibar" style="display:none"><select id="model"><option value="Llama-3.2-3B-Instruct-q4f16_1-MLC">x</option></select><button class="aibtn" id="aion">x</button><div class="pbar" id="pbar"><i></i></div><div class="aiinfo" id="aiinfo"></div></div>
  </div>
+ <div class="sect" id="sect">Popular questions</div>
  <div class="chips" id="chips"></div>
- <div id="log"><p class="empty">Ask a question to get an answer with citations to the SIR section and page.</p></div>
- <footer>Opened on claude.ai, Claude writes each answer. Anywhere else, answers come instantly from ~350 built-in cited Q&As and full-text search of all 120 pages, and you can turn on an on-device AI model that writes answers with no internet (WebLLM, Apache-2.0). Not legal advice; always confirm with the current SIR and your utility.</footer>
+ <div id="log"><p class="empty">Every answer comes from the SIR text and cites the section and page, so you can check it.</p></div>
+ <footer><span><b>Ask the NY SIR</b> · Answers are generated by AI from the SIR text and cite the section and page.</span><span>Not legal advice. Always confirm with the current SIR and your utility.</span></footer>
 </main>
 <script>
 (function(){
@@ -215,7 +237,7 @@ async function localAnswer(q, hits, fa, box){
   }
 }
 async function relayAnswer(q, hits, box){
-  box.innerHTML = `<p class="thinking">Reading the SIR…</p>`;
+  box.innerHTML = `<p class="thinking">Reading the SIR</p>`;
   const excerpts = hits.map(h => ({ label: h.sec + ", " + h.loc.replace(/ \[PDF/, ", PDF").replace(/\]/g, ""), text: h.text }));
   const hist = history.slice(-2).map(x => ({ q: x.q, a: x.a }));
   const res = await fetch(RELAY_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question: q, excerpts, history: hist }) });
@@ -228,7 +250,7 @@ async function relayAnswer(q, hits, box){
 async function ask(){
   const q = $("#q").value.trim(); if (!q || busy || !IDX) return;
   busy = true; $("#go").disabled = true; $("#q").value = "";
-  if (!history.length) { $("#log").innerHTML = ""; $("#chips").style.display = "none"; }
+  if (!history.length) { $("#log").innerHTML = ""; $("#chips").style.display = "none"; $("#sect").style.display = "none"; }
   const prevQ = history.length ? history[history.length-1].q : "";
   const hits = search(q + (q.split(/\s+/).length < 6 && prevQ ? " " + prevQ : ""), 10);
   const turn = document.createElement("div"); turn.className = "turn";
@@ -265,7 +287,7 @@ async function ask(){
     }
     else if (localOn) { const box = document.createElement("div"); box.className = "local"; ans.appendChild(box); $("#status").textContent = "On-device AI is writing…"; const t = await localAnswer(q, hits, fa, box); if (t) rec.a = t; }
   } else {
-    ans.innerHTML = `<p class="thinking">Reading the SIR…</p>`;
+    ans.innerHTML = `<p class="thinking">Reading the SIR</p>`;
     $("#status").textContent = "Answering…";
     try {
       const r = await sample(prompt(q, hits), { modelTier: "default", onText: ({text}) => { rec.a = text; ans.innerHTML = md(text); } });
@@ -287,7 +309,7 @@ $("#q").addEventListener("keydown", e => { if (e.key === "Enter" && !e.shiftKey)
 $("#q").addEventListener("input", e => { e.target.style.height = "auto"; e.target.style.height = Math.min(140, e.target.scrollHeight) + "px"; });
 
 /* ---------- boot ---------- */
-build(); $("#status").textContent = RELAY_URL ? "Ready. Answers are written by Claude from the SIR text." : "Ready: instant answers plus the matching SIR passages.";
+build(); $("#status").textContent = RELAY_URL ? "Ready. Answers are drawn from the SIR text, with citations." : "Ready: instant answers plus the matching SIR passages.";
 (function(){
   const bar = $("#aibar"); bar.style.display = RELAY_URL ? "none" : "flex";
   let saved = null; try { saved = localStorage.getItem("nysir-localai"); } catch(e){}
@@ -301,9 +323,6 @@ build(); $("#status").textContent = RELAY_URL ? "Ready. Answers are written by C
   };
   $("#model").onchange = () => { if (localOn) { try { localStorage.setItem("nysir-localai", $("#model").value); } catch(e){} $("#aiinfo").textContent = "Model changed. It will download (first time only) and load with your next question."; } };
 })();
-if (window.claude && window.claude.use) {
-  window.claude.use("sample").then(s => { sample = s; if (s) { $("#status").textContent = "Ready: written answers by Claude, grounded in the SIR text."; $("#aibar").style.display = "none"; } }).catch(() => {});
-}
 })();
 </script>
 <script type="text/plain" id="webllm-src"></script>
