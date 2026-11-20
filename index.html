@@ -273,7 +273,7 @@ async function localAnswer(q, hits, fa, box){
 async function relayAnswer(q, hits, box){
   box.innerHTML = `<p class="thinking">Reading the SIR</p>`;
   const excerpts = hits.map(h => ({ label: h.sec + ", " + h.loc.replace(/ \[PDF/, ", PDF").replace(/\]/g, ""), text: h.text }));
-  const hist = history.slice(-2).map(x => ({ q: x.q, a: x.a }));
+  const hist = history.slice(-3).map(x => ({ q: x.q, a: x.a }));
   const res = await fetch(RELAY_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ question: q, excerpts, history: hist }) });
   if (!res.ok || !res.body) throw new Error(res.status === 429 ? "You've asked a lot of questions in the last hour. Try again later." : ((await res.text().catch(()=>"")) || ("Error " + res.status)));
   const rd = res.body.getReader(), dec = new TextDecoder(); let txt = "";
@@ -292,12 +292,13 @@ async function ask(){
     <details class="src"><summary>Matching SIR passages (${Math.min(hits.length,6)})</summary>${hits.slice(0,6).map(h=>`<div class="p"><div class="lab">${esc(h.sec)} · ${esc(h.loc)}</div>${highlight(h.text,q)}</div>`).join("") || "<p class='status'>No matching passages.</p>"}</details>
     <div class="tools"></div>`;
   $("#log").prepend(turn);
+  if (!hits.length) { const d0 = turn.querySelector("details"); if (d0) d0.remove(); }
   const ans = turn.querySelector(".ans"), tools = turn.querySelector(".tools");
   const rec = { q, a: "" }; let fa = [];
   if (/abdoula?ye?/i.test(q) && /\bciti/i.test(q)) {
     ans.innerHTML = "<p>Soon, inchallah. 🤲</p>"; rec.a = "Soon, inchallah.";
     const d = turn.querySelector("details"); if (d) d.remove();
-  } else if (!hits.length) {
+  } else if (!hits.length && !RELAY_URL) {
     ans.innerHTML = "<p>I couldn't find anything in the SIR matching that question. Try different words, such as a step number, appendix letter or term like “CESIR” or “queue”.</p>";
   } else if (!sample) {
     fa = faqSearch(q);
@@ -310,7 +311,7 @@ async function ask(){
       rec.a = good[0].a;
     } else {
       ans.innerHTML = `<p>No ready-made answer matches closely. See the matching SIR passages below.</p>`;
-      turn.querySelector("details").open = true;
+      (turn.querySelector("details")||{}).open = true;
     }
     if (relayBox) {
       ans.innerHTML = ""; ans.appendChild(relayBox);
@@ -318,7 +319,7 @@ async function ask(){
       try { rec.a = await relayAnswer(q, hits, relayBox);
         tools.innerHTML = `<button class="tb" data-copy>Copy answer</button>`;
         tools.querySelector("[data-copy]").onclick = async e => { try { await navigator.clipboard.writeText(q+"\n\n"+rec.a); e.target.textContent="Copied ✓"; } catch(_) { e.target.textContent="Copy blocked"; } };
-      } catch (e) { relayBox.innerHTML = `<div class="note">${esc(e.message || "The written answer couldn't be generated.")} The matching SIR passages are below.</div>`; turn.querySelector("details").open = true; }
+      } catch (e) { relayBox.innerHTML = `<div class="note">${esc(e.message || "The written answer couldn't be generated.")} The matching SIR passages are below.</div>`; (turn.querySelector("details")||{}).open = true; }
     }
     else if (localOn) { const box = document.createElement("div"); box.className = "local"; ans.appendChild(box); $("#status").textContent = "On-device AI is writing…"; const t = await localAnswer(q, hits, fa, box); if (t) rec.a = t; }
   } else {
@@ -330,9 +331,9 @@ async function ask(){
       tools.innerHTML = `<button class="tb" data-copy>Copy answer</button>`;
       tools.querySelector("[data-copy]").onclick = async e => { try { await navigator.clipboard.writeText(q+"\n\n"+rec.a); e.target.textContent="Copied ✓"; } catch(_) { e.target.textContent="Copy blocked"; } };
     } catch (e) {
-      if (e && e.code === "not_granted") { sample = null; ans.innerHTML = `<div class="note">Written answers weren't allowed, so the matching passages are shown below.</div>`; turn.querySelector("details").open = true; }
-      else if (e && e.code === "rate_limited") { ans.innerHTML = `<div class="note">Too many questions at once. Wait a moment and ask again; the matching passages are below.</div>`; turn.querySelector("details").open = true; }
-      else { ans.innerHTML = `<div class="note">The written answer couldn't be generated (${esc(e && e.message || "error")}). The matching passages are below.</div>`; turn.querySelector("details").open = true; }
+      if (e && e.code === "not_granted") { sample = null; ans.innerHTML = `<div class="note">Written answers weren't allowed, so the matching passages are shown below.</div>`; (turn.querySelector("details")||{}).open = true; }
+      else if (e && e.code === "rate_limited") { ans.innerHTML = `<div class="note">Too many questions at once. Wait a moment and ask again; the matching passages are below.</div>`; (turn.querySelector("details")||{}).open = true; }
+      else { ans.innerHTML = `<div class="note">The written answer couldn't be generated (${esc(e && e.message || "error")}). The matching passages are below.</div>`; (turn.querySelector("details")||{}).open = true; }
     }
   }
   history.push(rec);
