@@ -99,6 +99,31 @@ footer{max-width:780px;margin:0 auto;padding:22px 18px 34px;border-top:1px solid
 footer b{color:var(--ink)}footer a{color:var(--blue);font-weight:600;text-decoration:none}footer a:hover{text-decoration:underline}
 @media (max-width:640px){.hero{padding:44px 16px 10px}.logo small,.navlink{display:none}.turn{padding:16px 16px 12px;border-radius:16px}.q{font-size:17px}body.chatting .askbar{top:57px}}
 @media print{.nav,.askbar,.chips,.sect,.tools,.srcline{display:none}.hero{padding:0}}
+
+:root{--navy:#141414;--blue:#1f5c3d;--blue2:#2a7a52;--sky:#eaf1ea;--gold:#b5832f;--bg:#f6f1e7;--panel:#fffdf8;--ink:#141414;--muted:#6e675c;--line:#e3dccd;--hl:#f3e3b4;--ring:rgba(31,92,61,.18)}
+body{background:#f6f1e7}
+.hero h1,.q,.logo{font-family:Georgia,"Iowan Old Style","Palatino Linotype",serif}
+.hero h1{font-weight:400;letter-spacing:-.02em;color:#141414}
+.hero h1 span{background:none;color:#1f5c3d;font-style:italic;-webkit-text-fill-color:#1f5c3d}
+.hero:before,.hero:after{display:none}
+.hero{border-bottom:1px solid #e3dccd;padding-bottom:40px}
+.hero p.sub{font-family:Georgia,serif;font-size:18px;color:#4f493f}
+.badge{background:transparent;border-color:#cfc6b3;color:#6e675c;box-shadow:none}.badge b{background:#1f5c3d}
+.nav{background:rgba(246,241,231,.85);border-bottom-color:#e3dccd}
+.logo i{background:#141414;box-shadow:none;border-radius:50%}
+.askbox{border-radius:4px;border:1.5px solid #141414;box-shadow:6px 6px 0 #141414;background:#fffdf8}
+.askbox:focus-within{box-shadow:6px 6px 0 #1f5c3d;border-color:#1f5c3d}
+.go{border-radius:2px;background:#141414}.go:hover{background:#1f5c3d;filter:none;box-shadow:none}
+.chip{border-radius:2px;background:transparent;border-color:#cfc6b3;box-shadow:none;color:#3a352d}.chip:hover{background:#fffdf8;border-color:#141414;color:#141414}
+.turn{border-radius:4px;box-shadow:none;border-color:#e3dccd;border-top:3px solid #141414}
+.q{font-weight:400;font-size:24px}
+.ans .c{background:transparent;border:1px solid #c9dccd;color:#1f5c3d}
+.tb{border-radius:2px}.clear{border-radius:2px}
+body.chatting .askbar{background:linear-gradient(#f6f1e7 80%,rgba(246,241,231,0))}
+
+.sect{color:#8a8274}.status{align-items:flex-start}.status:before{margin-top:5px}
+textarea::placeholder{color:#9b9384}
+@media (max-width:640px){.askbox{box-shadow:4px 4px 0 #141414}.askbox:focus-within{box-shadow:4px 4px 0 #1f5c3d}main{padding-right:22px}}
 </style></head>
 <body>
 <nav class="nav"><div class="nav-in">
